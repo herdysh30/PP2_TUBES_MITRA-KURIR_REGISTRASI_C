@@ -2,22 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package tubeswisdomwarriors.Model;
+package model;
 
-/**
- *
- * @author Herdy
- */
-public class kurir {
+public class Kurir {
     
     private int id;
     private String name;
     private String email;
     private String noTelp;
+    private String address;
     private String password;
 
     public int getId() {
         return id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setId(int id) {
