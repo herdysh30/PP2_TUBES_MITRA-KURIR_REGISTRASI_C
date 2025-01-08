@@ -11,10 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
+import view.OTP;
 
 public class RegisterController {
     private Register view;
     private KurirMapper mapper;
+    private OTP viewOTP;
     private SqlSession session;
 
     public RegisterController(Register view, KurirMapper mapper, SqlSession session) {
@@ -32,21 +34,32 @@ public class RegisterController {
             String address = view.getAdressInput();
             String email = view.getEmailInput();
             String password = view.getPasswordInput();
-
-            if (!name.isEmpty() && !email.isEmpty() && !noTelp.isEmpty() && !address.isEmpty()&& !password.isEmpty()  ) {
-                Kurir kurir = new Kurir();
-                kurir.setName(name);
-                kurir.setEmail(email);
-                kurir.setNoTelp(noTelp);
-                kurir.setAddress(address);
-                kurir.setPassword(password);
-
-                mapper.insertKurir(kurir);
-                session.commit();
-                JOptionPane.showMessageDialog(view, "Customer added successfully!");
-            } else {
-                JOptionPane.showMessageDialog(view, "Please fill in all fields.");
+            String konpassword = view.getKonPasswordInput();
+            
+            if (!password.equals(konpassword)) {
+                JOptionPane.showMessageDialog(view, "Password dan konfirmasi password tidak cocok.");
+                return; 
             }
+            
+            Kurir existingKurir = mapper.findKurirByEmail(email);
+                 if (existingKurir != null) {
+                JOptionPane.showMessageDialog(view, "Email sudah terdaftar ! Gunakan Email Lain");
+                return; 
+            }
+
+            // Validasi form tidak boleh kosong
+        if (name.isEmpty() || email.isEmpty() || noTelp.isEmpty() || address.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Lengkapi Semua Formulirnya !");
+            return;
+        }
+        
+        view.setVisible(false);  
+        viewOTP = new OTP();  
+        viewOTP.setVisible(true);  
+        
+        viewOTP.setKurirData(mapper, session, name, email, password, noTelp, address);
+            
+            
         }
     }
     
