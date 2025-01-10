@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.security.MessageDigest;
 import org.apache.ibatis.session.SqlSession;
 import controller.SessionManager;
+import view.Menu;
 
 public class LoginController {
     private Login view;
@@ -64,10 +65,10 @@ public class LoginController {
                         JOptionPane.showMessageDialog(view, "Login berhasil! Selamat datang, " + user.getName());
                         view.setVisible(false);
 
-                        // Navigasi ke halaman berikutnya
-                        // Menu menuView = new Menu();
-                        // MenuController menuController = new MenuController(menuView, mapper, session);
-                        // menuView.setVisible(true);
+                         //Navigasi ke halaman berikutnya
+                         Menu menuView = new Menu();
+                         MenuController menuController = new MenuController(menuView, mapper, session);
+                         menuView.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(view, "Password salah!");
                     }
