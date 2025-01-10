@@ -81,6 +81,11 @@ public class RegisterController {
             String email = view.getEmailInput();
             String password = view.getPasswordInput();
             String konpassword = view.getKonPasswordInput();
+            
+            if (name.isEmpty() || email.isEmpty() || noTelp.isEmpty() || address.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Lengkapi Semua Formulirnya!");
+                return;
+            }
 
             if (!password.equals(konpassword)) {
                 JOptionPane.showMessageDialog(view, "Password dan konfirmasi password tidak cocok.");
@@ -100,11 +105,6 @@ public class RegisterController {
             Kurir existingKurir = mapper.findKurirByEmail(email);
             if (existingKurir != null) {
                 JOptionPane.showMessageDialog(view, "Email sudah terdaftar! Gunakan Email Lain");
-                return;
-            }
-
-            if (name.isEmpty() || email.isEmpty() || noTelp.isEmpty() || address.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(view, "Lengkapi Semua Formulirnya!");
                 return;
             }
 
