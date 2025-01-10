@@ -1,6 +1,8 @@
 package view;
 
 import controller.LoginController;
+import controller.OTPController;
+import controller.SessionManager;
 import javax.swing.JOptionPane;
 import model.Kurir;
 import model.KurirMapper;
@@ -18,7 +20,16 @@ public class HalOTP extends javax.swing.JDialog {
     private KurirMapper mapper;
     private OTPMapper otpMapper;
     private SqlSession session;
+    private String operationMode;
+    private OTPController otpController;
 
+    public void setOtpController(OTPController otpController) {
+        this.otpController = otpController;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+    }
     public HalOTP() {
         initComponents();
         
@@ -125,7 +136,7 @@ public class HalOTP extends javax.swing.JDialog {
                 .addComponent(btnVerifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85)
                 .addComponent(resendOTPBtn)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,51 +146,17 @@ public class HalOTP extends javax.swing.JDialog {
     private void btnVerifikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiActionPerformed
         String otpInput = getOTPInput();
 
-    try {
-        OTP otp = otpMapper.findByKodeOtp(otpInput);
+    if (otpInput == null) {
+        // Input tidak valid, keluar dari metode
+        return;
+    }
 
-        if (otp == null) {
-            JOptionPane.showMessageDialog(this, "Kode OTP tidak ditemukan!");
-            return;
+    if (otpController.validateOtp(otpInput)) {
+        if ("register".equals(operationMode)) {
+            handleRegistration();
+        } else if ("resetPassword".equals(operationMode)) {
+            handleResetPassword();
         }
-        
-        // Validasi OTP
-        if (otp.getExpiresAt() == null || otp.getExpiresAt().isBefore(LocalDateTime.now())) {
-            JOptionPane.showMessageDialog(this, "Kode OTP tidak valid atau telah kedaluwarsa!");
-            return;
-        }
-
-        if ("DIPAKAI".equals(otp.getStatus())) {
-            JOptionPane.showMessageDialog(this, "Kode OTP sudah digunakan!");
-            return;
-        }
-
-        // Tandai OTP sebagai sudah dipakai
-        otpMapper.updateStatus(otp.getOtpId());
-        session.commit();
-
-        // Jika OTP benar, lanjutkan proses pembuatan kurir
-        Kurir kurir = new Kurir();
-        kurir.setName(name);
-        kurir.setEmail(email);
-        kurir.setNoTelp(noTelp);
-        kurir.setAddress(address);
-        kurir.setPassword(password);
-
-        // Simpan data ke database
-        mapper.insertKurir(kurir);
-        session.commit();
-
-        JOptionPane.showMessageDialog(this, "Registrasi Berhasil! Silahkan Login");
-        this.setVisible(false);
-
-        Login loginView = new Login();
-        new LoginController(loginView, mapper, session); 
-        loginView.setVisible(true);
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memvalidasi OTP: " + ex.getMessage());
-        ex.printStackTrace();
     }
     }//GEN-LAST:event_btnVerifikasiActionPerformed
 
@@ -189,54 +166,94 @@ public class HalOTP extends javax.swing.JDialog {
 
     private void resendOTPBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resendOTPBtnActionPerformed
 
-    if (mapper == null || session == null || email == null) {
-        JOptionPane.showMessageDialog(this, "Data tidak lengkap untuk mengirim ulang OTP.");
-        return;
-    }
+        if (mapper == null || session == null || email == null) {
+            JOptionPane.showMessageDialog(this, "Data tidak lengkap untuk mengirim ulang OTP.");
+            return;
+        }
 
-    try {
-        // Generate dan kirim ulang OTP
-        String kodeOtp = generateOTP();
+        try {
+            // Generate OTP baru
+            String kodeOtp = otpController.generateOtp();
 
-        OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+            // Simpan OTP ke database
+            otpController.saveOtp(kodeOtp, LocalDateTime.now().plusMinutes(5), "BELUM_DIPAKAI");
 
-        // Buat OTP baru
-        OTP newOtp = new OTP();
-        newOtp.setKodeOtp(kodeOtp);
-        newOtp.setCreatedAt(LocalDateTime.now());
-        newOtp.setExpiresAt(LocalDateTime.now().plusMinutes(5));
-        newOtp.setStatus("BELUM_DIPAKAI");
-
-        // Simpan OTP ke database
-        otpMapper.insertOTP(newOtp);
-        session.commit();
-
-        // Tampilkan OTP di popup (untuk simulasi)
-        JOptionPane.showMessageDialog(this, "Kode OTP baru telah dikirim: " + kodeOtp);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengirim ulang OTP: " + ex.getMessage());
-    }
+            // Tampilkan OTP di popup (untuk simulasi)
+            JOptionPane.showMessageDialog(this, "Kode OTP baru telah dikirim: " + kodeOtp);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengirim ulang OTP: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_resendOTPBtnActionPerformed
-    public String getOTPInput(){
-        return fieldOTP.getText();
+    
+    private void handleRegistration() {
+        try {
+            Kurir kurir = new Kurir();
+            kurir.setName(name);
+            kurir.setEmail(email);
+            kurir.setNoTelp(noTelp);
+            kurir.setAddress(address);
+            kurir.setPassword(password);
+
+            // Simpan data ke database
+            mapper.insertKurir(kurir);
+            session.commit();
+
+            JOptionPane.showMessageDialog(this, "Registrasi Berhasil! Silahkan Login");
+            this.setVisible(false);
+
+            // Arahkan ke halaman login
+            Login loginView = new Login();
+            new LoginController(loginView, mapper, session);
+            loginView.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat registrasi: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    private void handleResetPassword() {
+    try {
+        // Dapatkan data pengguna dari email
+        Kurir user = mapper.findKurirByEmail(email);
+        if (user == null) {
+            JOptionPane.showMessageDialog(this, "Pengguna tidak ditemukan!");
+            return;
+        }
+
+        // Simpan pengguna ke session
+        SessionManager.setCurrentUser(user);
+
+        // Arahkan ke halaman ResetPassword
+        ResetPassword resetPasswordView = new ResetPassword(mapper, session);
+        resetPasswordView.setVisible(true);
+        this.dispose(); // Tutup HalOTP
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses data: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
+    public String getOTPInput() {
+        String otpInput = fieldOTP.getText().trim();
+
+        // Validasi OTP: harus berisi angka dan panjang 6 digit
+        if (otpInput.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Kode OTP tidak boleh kosong!");
+            return null;
+        }
+
+        if (!otpInput.matches("\\d{6}")) {
+            JOptionPane.showMessageDialog(this, "Kode OTP harus terdiri dari 6 digit angka!");
+            return null;
+        }
+
+        return otpInput;
     }
 
-    private String generateOTP() {
-        int otp = (int) (Math.random() * 900000) + 100000; 
-        return String.valueOf(otp);
-    }
-    
-    
-    
-    public static void main(String args[]) {
-        
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HalOTP().setVisible(true);
-            }
-        });
-    }
+
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerifikasi;
     private javax.swing.JTextField fieldOTP;

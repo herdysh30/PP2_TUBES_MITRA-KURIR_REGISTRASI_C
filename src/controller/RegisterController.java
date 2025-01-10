@@ -116,10 +116,14 @@ public class RegisterController {
 
                 // Navigasi ke halaman OTP
                 view.setVisible(false);
-                OTPMapper otpMapper = session.getMapper(OTPMapper.class); 
-                viewOTP = new HalOTP();
-                viewOTP.setKurirData(mapper, otpMapper, session, name, email, hashedPassword, noTelp, address);
-                viewOTP.setVisible(true);
+                OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+                OTPController otpController = new OTPController(otpMapper, session);
+                HalOTP halOtp = new HalOTP();
+                halOtp.setOtpController(otpController);
+                halOtp.setOperationMode("register");
+                halOtp.setKurirData(mapper, otpMapper, session, name, email, hashedPassword, noTelp, address);
+                halOtp.setVisible(true);
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Terjadi kesalahan saat memproses data: " + ex.getMessage());
             }
