@@ -60,13 +60,13 @@ public class LoginController {
                     String hashedPassword = hashPassword(password);
                     if (user.getPassword().equals(hashedPassword)) {
                         // Login berhasil, simpan sesi pengguna
-                        SessionManager.setCurrentUser(user);
 
                         JOptionPane.showMessageDialog(view, "Login berhasil! Selamat datang, " + user.getName());
                         view.setVisible(false);
+                        SessionManager.setCurrentUser(user);
 
                          //Navigasi ke halaman berikutnya
-                         Menu menuView = new Menu();
+                         Menu menuView = new Menu(mapper, session);
                          MenuController menuController = new MenuController(menuView, mapper, session);
                          menuView.setVisible(true);
                     } else {
