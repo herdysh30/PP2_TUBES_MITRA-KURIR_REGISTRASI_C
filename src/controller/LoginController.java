@@ -66,7 +66,7 @@ public class LoginController {
                         view.setVisible(false);
 
                          //Navigasi ke halaman berikutnya
-                         Menu menuView = new Menu();
+                         Menu menuView = new Menu(mapper, session);
                          MenuController menuController = new MenuController(menuView, mapper, session);
                          menuView.setVisible(true);
                     } else {
