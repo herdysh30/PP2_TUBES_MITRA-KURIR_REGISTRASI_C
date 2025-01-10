@@ -1,30 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
+import controller.LoginController;
 import javax.swing.JOptionPane;
 import model.Kurir;
 import model.KurirMapper;
+import model.OTP;
+import model.OTPMapper;
 import org.apache.ibatis.session.SqlSession;
+import java.time.LocalDateTime;;
 
-public class OTP extends javax.swing.JDialog {
+public class HalOTP extends javax.swing.JDialog {
     private String name;
     private String email;
     private String password;
     private String noTelp;
     private String address;
     private KurirMapper mapper;
+    private OTPMapper otpMapper;
     private SqlSession session;
 
-    public OTP() {
+    public HalOTP() {
         initComponents();
         
     }
-    public void setKurirData(KurirMapper mapper,SqlSession session, String name, String email, String password, String noTelp, String address) {
+    public void setKurirData(KurirMapper mapper, OTPMapper otpMapper, SqlSession session, 
+                             String name, String email, String password, String noTelp, String address) {
         this.session = session;
         this.mapper = mapper;
+        this.otpMapper = otpMapper; 
         this.name = name;
         this.email = email;
         this.password = password;
@@ -39,14 +42,10 @@ public class OTP extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnVerifikasi = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         fieldOTP = new javax.swing.JTextField();
+        resendOTPBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImages(null);
@@ -69,29 +68,22 @@ public class OTP extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Frame.png"))); // NOI18N
-
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
         jLabel7.setText("Untuk memastikan akun ini milik anda,");
-
-        jLabel9.setForeground(new java.awt.Color(51, 102, 255));
-        jLabel9.setText("Kirim ulang");
-
-        jLabel10.setForeground(new java.awt.Color(51, 102, 255));
-        jLabel10.setText("Kirim ulang ");
 
         jLabel11.setForeground(new java.awt.Color(153, 153, 153));
         jLabel11.setText("mohon masukan 6 digit kode keamanan");
 
-        jLabel13.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel13.setText(" kode verifikasi");
-
-        jLabel14.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel14.setText(" dengan metode lain");
-
         fieldOTP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldOTPActionPerformed(evt);
+            }
+        });
+
+        resendOTPBtn.setText("Kirim Ulang OTP");
+        resendOTPBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resendOTPBtnActionPerformed(evt);
             }
         });
 
@@ -107,34 +99,17 @@ public class OTP extends javax.swing.JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(btnVerifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel13))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel14)))
-                            .addComponent(fieldOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel11))))
-                .addGap(62, 62, 62)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(jLabel11)
+                            .addComponent(fieldOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVerifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resendOTPBtn))))
+                .addGap(105, 105, 105))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(300, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addContainerGap(300, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
@@ -144,19 +119,13 @@ public class OTP extends javax.swing.JDialog {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addGap(69, 69, 69)
                 .addComponent(fieldOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(48, 48, 48)
                 .addComponent(btnVerifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(85, 85, 85)
+                .addComponent(resendOTPBtn)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         pack();
@@ -164,42 +133,107 @@ public class OTP extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerifikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiActionPerformed
-        String otpInput = getOTPInput();  // Ambil input OTP
+        String otpInput = getOTPInput();
 
-        if ("123456".equals(otpInput)) {
-            // Jika OTP benar, lanjutkan proses pembuatan kurir
-            Kurir kurir = new Kurir();
-            kurir.setName(name);
-            kurir.setEmail(email);
-            kurir.setNoTelp(noTelp);
-            kurir.setAddress(address);
-            kurir.setPassword(password);
+    try {
+        OTP otp = otpMapper.findByKodeOtp(otpInput);
 
-            // Simpan data ke database
-            mapper.insertKurir(kurir);
-            session.commit();
-            JOptionPane.showMessageDialog(this, "Registrasi Berhasil!");
-            this.setVisible(false); 
-            // Arahkan ke tampilan lain jika perlu
-        } else {
-
-            JOptionPane.showMessageDialog(this, "OTP salah, coba lagi!");
+        if (otp == null) {
+            JOptionPane.showMessageDialog(this, "Kode OTP tidak ditemukan!");
+            return;
         }
+        
+        // Validasi OTP
+        if (otp.getExpiresAt() == null || otp.getExpiresAt().isBefore(LocalDateTime.now())) {
+            JOptionPane.showMessageDialog(this, "Kode OTP tidak valid atau telah kedaluwarsa!");
+            return;
+        }
+
+        if ("DIPAKAI".equals(otp.getStatus())) {
+            JOptionPane.showMessageDialog(this, "Kode OTP sudah digunakan!");
+            return;
+        }
+
+        // Tandai OTP sebagai sudah dipakai
+        otpMapper.updateStatus(otp.getOtpId());
+        session.commit();
+
+        // Jika OTP benar, lanjutkan proses pembuatan kurir
+        Kurir kurir = new Kurir();
+        kurir.setName(name);
+        kurir.setEmail(email);
+        kurir.setNoTelp(noTelp);
+        kurir.setAddress(address);
+        kurir.setPassword(password);
+
+        // Simpan data ke database
+        mapper.insertKurir(kurir);
+        session.commit();
+
+        JOptionPane.showMessageDialog(this, "Registrasi Berhasil! Silahkan Login");
+        this.setVisible(false);
+
+        Login loginView = new Login();
+        new LoginController(loginView, mapper, session); 
+        loginView.setVisible(true);
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memvalidasi OTP: " + ex.getMessage());
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_btnVerifikasiActionPerformed
 
     private void fieldOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldOTPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldOTPActionPerformed
+
+    private void resendOTPBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resendOTPBtnActionPerformed
+
+    if (mapper == null || session == null || email == null) {
+        JOptionPane.showMessageDialog(this, "Data tidak lengkap untuk mengirim ulang OTP.");
+        return;
+    }
+
+    try {
+        // Generate dan kirim ulang OTP
+        String kodeOtp = generateOTP();
+
+        OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+
+        // Buat OTP baru
+        OTP newOtp = new OTP();
+        newOtp.setKodeOtp(kodeOtp);
+        newOtp.setCreatedAt(LocalDateTime.now());
+        newOtp.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        newOtp.setStatus("BELUM_DIPAKAI");
+
+        // Simpan OTP ke database
+        otpMapper.insertOTP(newOtp);
+        session.commit();
+
+        // Tampilkan OTP di popup (untuk simulasi)
+        JOptionPane.showMessageDialog(this, "Kode OTP baru telah dikirim: " + kodeOtp);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengirim ulang OTP: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_resendOTPBtnActionPerformed
     public String getOTPInput(){
         return fieldOTP.getText();
     }
+
+    private String generateOTP() {
+        int otp = (int) (Math.random() * 900000) + 100000; 
+        return String.valueOf(otp);
+    }
+    
+    
     
     public static void main(String args[]) {
         
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OTP().setVisible(true);
+                new HalOTP().setVisible(true);
             }
         });
     }
@@ -207,14 +241,10 @@ public class OTP extends javax.swing.JDialog {
     private javax.swing.JButton btnVerifikasi;
     private javax.swing.JTextField fieldOTP;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton resendOTPBtn;
     // End of variables declaration//GEN-END:variables
 }
