@@ -1,8 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
+
+import controller.LoginController;
+import controller.RegisterController;
+import model.KurirMapper;
+import model.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
 
 
 public class TampilanAwal extends javax.swing.JFrame {
@@ -107,13 +109,22 @@ public class TampilanAwal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
-         Register register = new Register();
-        register.setVisible(true);
-        this.dispose();
+        SqlSession session = MyBatisUtil.getSqlSession(); 
+        KurirMapper mapper = session.getMapper(KurirMapper.class); 
+        Register register = new Register();
+        new RegisterController(register, mapper, session); 
+        register.setVisible(true); 
+        this.dispose(); 
     }//GEN-LAST:event_btnDaftarActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
+        SqlSession session = MyBatisUtil.getSqlSession(); 
+        KurirMapper mapper = session.getMapper(KurirMapper.class); 
+
+        Login login = new Login();
+        new LoginController(login, mapper, session); 
+        login.setVisible(true); 
+        this.dispose(); 
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

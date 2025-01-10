@@ -37,11 +37,13 @@ public class GantiPassword extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Buat Password Baru");
+
 
         PasswordBaru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +77,7 @@ public class GantiPassword extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
 
         jButton1.setText("Back");
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,13 +114,16 @@ public class GantiPassword extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jButton1)))
                 .addContainerGap(86, Short.MAX_VALUE))
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jLabel6)
+
                 .addGap(46, 46, 46)
+
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -136,6 +142,7 @@ public class GantiPassword extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addComponent(jButton1)
                 .addGap(59, 59, 59))
+
         );
 
         pack();
@@ -152,6 +159,7 @@ public class GantiPassword extends javax.swing.JFrame {
     private void ubahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ubahBtnActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -189,6 +197,7 @@ public class GantiPassword extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JTextField KonfirmasiPasswordBaru;
     private javax.swing.JTextField PasswordBaru;
     private javax.swing.JButton jButton1;
@@ -199,5 +208,6 @@ public class GantiPassword extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JButton ubahBtn;
+
     // End of variables declaration//GEN-END:variables
 }

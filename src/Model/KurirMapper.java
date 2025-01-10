@@ -20,4 +20,7 @@ public interface KurirMapper {
 
     @Delete("DELETE FROM kurir WHERE id = #{id}")
     void deleteKurir(int id);
+    
+    @Select("SELECT * FROM kurir WHERE email = #{email}")
+    Kurir findKurirByEmail(String email);
 }
