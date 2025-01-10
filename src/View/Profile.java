@@ -1,5 +1,6 @@
 package view;
 
+import controller.MenuController;
 import controller.ProfileController;
 import controller.SessionManager;
 import model.Kurir;
@@ -170,6 +171,7 @@ public class Profile extends javax.swing.JFrame {
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         Menu menu = new Menu(mapper, session); 
+        MenuController menuController = new MenuController(menu, mapper, session); 
         menu.setVisible(true);
         this.dispose(); 
     }//GEN-LAST:event_backBtnActionPerformed
