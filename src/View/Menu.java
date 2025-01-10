@@ -2,6 +2,7 @@
 
 package view;
 
+import controller.GantiPasswordController;
 import controller.ProfileController;
 import controller.SessionManager;
 import java.awt.event.ActionListener;
@@ -136,9 +137,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_profileBtnActionPerformed
 
     private void gantiPasswordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gantiPasswordBtnActionPerformed
-        GantiPassword gantiPw = new GantiPassword();
-        gantiPw.setVisible(true);
-        this.dispose();
+        GantiPassword gantiPasswordView = new GantiPassword(mapper, session);
+        GantiPasswordController gantiPasswordController = new GantiPasswordController(gantiPasswordView, mapper, session);
+        gantiPasswordView.setVisible(true);
+        this.dispose(); 
     }//GEN-LAST:event_gantiPasswordBtnActionPerformed
 
     /**
