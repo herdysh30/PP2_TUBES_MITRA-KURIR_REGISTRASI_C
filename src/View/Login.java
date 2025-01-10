@@ -2,6 +2,7 @@
 package view;
 
 import controller.LoginController;
+import controller.RegisterController;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import model.KurirMapper;
@@ -96,6 +97,11 @@ public class Login extends javax.swing.JFrame {
         });
 
         registerBtn.setText("Register");
+        registerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerBtnActionPerformed(evt);
+            }
+        });
 
         lupaPWBtn.setText("Lupa Password ?");
 
@@ -133,11 +139,12 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(51, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lupaPWBtn))
-                .addGap(138, 138, 138))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lupaPWBtn))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(147, 147, 147))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,9 +209,15 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pwToggleActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
+        SqlSession session = MyBatisUtil.getSqlSession(); 
+        KurirMapper mapper = session.getMapper(KurirMapper.class); 
+        Register register = new Register();
+        new RegisterController(register, mapper, session); 
+        register.setVisible(true); 
+        this.dispose(); 
+    }//GEN-LAST:event_registerBtnActionPerformed
+
     public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
