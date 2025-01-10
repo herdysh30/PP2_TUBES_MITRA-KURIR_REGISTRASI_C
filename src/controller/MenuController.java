@@ -34,7 +34,6 @@ public class MenuController {
         view.setEmailMessage(currentUser.getEmail());
         view.setNamaUser(currentUser.getName());
 
-        // Tambahkan listener untuk tombol logout
         LogoutController logoutController = new LogoutController(mapper, session, view);
         view.addLogoutListener(e -> logoutController.logout());
     }

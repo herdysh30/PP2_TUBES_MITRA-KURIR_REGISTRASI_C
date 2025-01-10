@@ -2,14 +2,39 @@
 
 package view;
 
+import controller.ProfileController;
+import controller.SessionManager;
 import java.awt.event.ActionListener;
+import model.Kurir;
+import model.KurirMapper;
+import org.apache.ibatis.session.SqlSession;
 
 public class Menu extends javax.swing.JFrame {
+    
+    private KurirMapper mapper;
+    private SqlSession session;
+
+    public Menu(KurirMapper mapper, SqlSession session) {
+        this.mapper = mapper;
+        this.session = session;
+        initComponents();
+        loadUserData();
+    }
 
     public Menu() {
         initComponents();
     }
-
+    
+    public void loadUserData() {
+    Kurir currentUser = SessionManager.getCurrentUser();
+    if (currentUser != null) {
+        setNamaUser(currentUser.getName());
+        setEmailMessage(currentUser.getEmail());
+    } else {
+        setNamaUser("Nama User");
+        setEmailMessage("Email User");
+    }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -103,9 +128,11 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
-        Profile profile = new Profile(); 
-        profile.setVisible(true); 
+        Profile profile = new Profile(mapper, session); 
+        ProfileController profileController = new ProfileController(profile, mapper, session); 
+        profile.setVisible(true);
         this.dispose(); 
+
     }//GEN-LAST:event_profileBtnActionPerformed
 
     private void gantiPasswordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gantiPasswordBtnActionPerformed
