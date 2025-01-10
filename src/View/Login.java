@@ -2,13 +2,16 @@
 package view;
 
 import controller.LoginController;
+import controller.LupaPasswordController;
 import controller.RegisterController;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import model.KurirMapper;
 import model.MyBatisUtil;
+import model.OTPMapper;
 import org.apache.ibatis.session.SqlSession;
 import view.Register;
+import view.LupaPassword;
 
 /**
  *
@@ -104,6 +107,11 @@ public class Login extends javax.swing.JFrame {
         });
 
         lupaPWBtn.setText("Lupa Password ?");
+        lupaPWBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lupaPWBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,10 +148,12 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lupaPWBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lupaPWBtn))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(24, 24, 24)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(147, 147, 147))
         );
         layout.setVerticalGroup(
@@ -217,6 +227,17 @@ public class Login extends javax.swing.JFrame {
         register.setVisible(true); 
         this.dispose(); 
     }//GEN-LAST:event_registerBtnActionPerformed
+
+    private void lupaPWBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lupaPWBtnActionPerformed
+        LupaPassword lupaPasswordView = new LupaPassword();
+    SqlSession session = MyBatisUtil.getSqlSession(); 
+    KurirMapper kurirMapper = session.getMapper(KurirMapper.class);
+    OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+
+    LupaPasswordController lupaPasswordController = new LupaPasswordController(lupaPasswordView, kurirMapper, otpMapper, session);
+    lupaPasswordView.setVisible(true);
+    this.dispose(); 
+    }//GEN-LAST:event_lupaPWBtnActionPerformed
 
     public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(new Runnable() {
