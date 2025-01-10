@@ -230,13 +230,17 @@ public class Login extends javax.swing.JFrame {
 
     private void lupaPWBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lupaPWBtnActionPerformed
         LupaPassword lupaPasswordView = new LupaPassword();
-    SqlSession session = MyBatisUtil.getSqlSession(); 
-    KurirMapper kurirMapper = session.getMapper(KurirMapper.class);
-    OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+        SqlSession session = MyBatisUtil.getSqlSession();
+        KurirMapper kurirMapper = session.getMapper(KurirMapper.class);
+        OTPMapper otpMapper = session.getMapper(OTPMapper.class);
 
-    LupaPasswordController lupaPasswordController = new LupaPasswordController(lupaPasswordView, kurirMapper, otpMapper, session);
-    lupaPasswordView.setVisible(true);
-    this.dispose(); 
+        // Buat LupaPasswordController
+        LupaPasswordController lupaPasswordController = new LupaPasswordController(
+            lupaPasswordView, kurirMapper, otpMapper, session
+        );
+
+        lupaPasswordView.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lupaPWBtnActionPerformed
 
     public static void main(String[] args) {

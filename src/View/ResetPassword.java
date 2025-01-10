@@ -31,8 +31,8 @@ public class ResetPassword extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         passwordInput = new javax.swing.JPasswordField();
         konpasswordInput = new javax.swing.JPasswordField();
-        pwToggle1 = new javax.swing.JButton();
         pwToggle2 = new javax.swing.JButton();
+        pwToggle1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,17 +55,17 @@ public class ResetPassword extends javax.swing.JDialog {
 
         jLabel7.setText("Password Baru");
 
-        pwToggle1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pwToggle.png"))); // NOI18N
-        pwToggle1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pwToggle1ActionPerformed(evt);
-            }
-        });
-
         pwToggle2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pwToggle.png"))); // NOI18N
         pwToggle2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pwToggle2ActionPerformed(evt);
+            }
+        });
+
+        pwToggle1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pwToggle.png"))); // NOI18N
+        pwToggle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwToggle1ActionPerformed(evt);
             }
         });
 
@@ -90,8 +90,8 @@ public class ResetPassword extends javax.swing.JDialog {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pwToggle1)
-                            .addComponent(pwToggle2)))
+                            .addComponent(pwToggle2)
+                            .addComponent(pwToggle1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addComponent(btnUbah)))
@@ -109,13 +109,13 @@ public class ResetPassword extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pwToggle2))
+                    .addComponent(pwToggle1))
                 .addGap(28, 28, 28)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(konpasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pwToggle1))
+                    .addComponent(pwToggle2))
                 .addGap(58, 58, 58)
                 .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(142, Short.MAX_VALUE))
@@ -182,14 +182,6 @@ public class ResetPassword extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnUbahActionPerformed
 
-    private void pwToggle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwToggle2ActionPerformed
-        if (konpasswordInput.getEchoChar() == '*') {
-            konpasswordInput.setEchoChar((char) 0); 
-        } else {
-            konpasswordInput.setEchoChar('*'); 
-        }
-    }//GEN-LAST:event_pwToggle2ActionPerformed
-
     private void pwToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwToggle1ActionPerformed
         if (passwordInput.getEchoChar() == '*') {
             passwordInput.setEchoChar((char) 0); 
@@ -199,6 +191,15 @@ public class ResetPassword extends javax.swing.JDialog {
             
         }
     }//GEN-LAST:event_pwToggle1ActionPerformed
+
+    private void pwToggle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwToggle2ActionPerformed
+        
+        if (konpasswordInput.getEchoChar() == '*') {
+            konpasswordInput.setEchoChar((char) 0); 
+        } else {
+            konpasswordInput.setEchoChar('*'); 
+        }
+    }//GEN-LAST:event_pwToggle2ActionPerformed
 
     public String getPasswordInput(){
         return passwordInput.getText();
