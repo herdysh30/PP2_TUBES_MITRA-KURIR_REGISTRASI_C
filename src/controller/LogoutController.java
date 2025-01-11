@@ -1,5 +1,6 @@
 package controller;
 
+import javax.swing.JFrame;
 import view.Login;
 import view.Menu;
 import model.KurirMapper;
@@ -9,13 +10,13 @@ import javax.swing.JOptionPane;
 public class LogoutController {
     private KurirMapper mapper;
     private SqlSession session;
-    private Menu menuView; // Referensi ke Menu
+    private JFrame view; 
 
-    // Constructor untuk menerima mapper, session, dan Menu
-    public LogoutController(KurirMapper mapper, SqlSession session, Menu menuView) {
+    // Constructor untuk menerima mapper, session, dan view
+    public LogoutController(KurirMapper mapper, SqlSession session, JFrame view) {
         this.mapper = mapper;
         this.session = session;
-        this.menuView = menuView;
+        this.view = view;
     }
 
     public void logout() {
@@ -26,7 +27,7 @@ public class LogoutController {
             SessionManager.clearSession();
 
             // Tutup halaman Menu
-            menuView.dispose();
+            view.dispose();
 
             // Buka halaman Login
             Login loginView = new Login();
