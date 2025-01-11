@@ -9,7 +9,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import model.OTPMapper;
+import model.RiwayatLoginMapper;
 import view.OTPListView;
+import view.RiwayatLoginView;
 import view.UserListView;
 
 public class AdminMenuController {
@@ -55,8 +57,10 @@ public class AdminMenuController {
     class RiwayatLoginButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(view, "Fitur Riwayat Login User dipilih.");
-            // Implementasikan logika untuk melihat riwayat login user
+            RiwayatLoginView riwayatLoginView = new RiwayatLoginView();
+            RiwayatLoginMapper riwayatLoginMapper = session.getMapper(RiwayatLoginMapper.class);
+            new RiwayatLoginController(riwayatLoginView, riwayatLoginMapper, session);
+            riwayatLoginView.setVisible(true);
         }
     }
 
