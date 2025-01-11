@@ -172,6 +172,11 @@ public class EditProfile extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Semua field harus diisi!");
             return;
         }
+        
+        if (!email.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(this, "Format email tidak valid!");
+            return;
+        }
 
         // Ambil data pengguna dari session
         Kurir currentUser = SessionManager.getCurrentUser();
