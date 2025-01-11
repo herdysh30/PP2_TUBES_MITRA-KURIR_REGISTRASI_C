@@ -8,6 +8,9 @@ import view.Login;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import model.OTPMapper;
+import view.OTPListView;
+import view.UserListView;
 
 public class AdminMenuController {
     private AdminMenu view;
@@ -32,16 +35,20 @@ public class AdminMenuController {
     class UserButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(view, "Fitur Daftar User dipilih.");
-            // Implementasikan logika untuk membuka daftar user (dengan JTable)
+           UserListView userListView = new UserListView();
+            KurirMapper kurirMapper = session.getMapper(KurirMapper.class);
+            new UserListController(userListView, kurirMapper, session); 
+            userListView.setVisible(true);
         }
     }
 
     class OtpButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(view, "Fitur Daftar OTP dipilih.");
-            // Implementasikan logika untuk membuka daftar OTP (dengan JTable)
+            OTPListView otpListView = new OTPListView();
+            OTPMapper otpMapper = session.getMapper(OTPMapper.class);
+            new OTPListController(otpListView, otpMapper, session);
+            otpListView.setVisible(true);
         }
     }
 
