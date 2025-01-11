@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org/DTD Contif 3.0/EN"
     <mappers>
         <mapper class="model.KurirMapper"/>
         <mapper class="model.OTPMapper"/>
+        <mapper class="model.RiwayatLoginMapper"/>
     </mappers>
 
 </configuration>
