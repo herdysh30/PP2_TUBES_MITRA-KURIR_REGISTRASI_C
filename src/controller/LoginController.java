@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.security.MessageDigest;
 import org.apache.ibatis.session.SqlSession;
 import controller.SessionManager;
+import view.AdminMenu;
 import view.Menu;
 
 public class LoginController {
@@ -43,7 +44,6 @@ public class LoginController {
             String email = view.getEmailInput();
             String password = view.getPasswordInput();
 
-            // Validasi input pengguna
             if (email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Email dan password harus diisi!");
                 return;
@@ -59,16 +59,23 @@ public class LoginController {
                 if (user != null) {
                     String hashedPassword = hashPassword(password);
                     if (user.getPassword().equals(hashedPassword)) {
-                        // Login berhasil, simpan sesi pengguna
-
                         JOptionPane.showMessageDialog(view, "Login berhasil! Selamat datang, " + user.getName());
                         view.setVisible(false);
+
                         SessionManager.setCurrentUser(user);
 
-                         //Navigasi ke halaman berikutnya
-                         Menu menuView = new Menu(mapper, session);
-                         MenuController menuController = new MenuController(menuView, mapper, session);
-                         menuView.setVisible(true);
+                        // Validasi role
+                        if ("admin".equalsIgnoreCase(user.getRole())) {
+                            // Admin Menu
+                            AdminMenu adminMenuView = new AdminMenu(mapper, session);
+                            AdminMenuController adminMenuController = new AdminMenuController(adminMenuView, mapper, session);
+                            adminMenuView.setVisible(true);
+                        } else {
+                            // User Menu
+                            Menu menuView = new Menu(mapper, session);
+                            MenuController menuController = new MenuController(menuView, mapper, session);
+                            menuView.setVisible(true);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(view, "Password salah!");
                     }
@@ -80,4 +87,5 @@ public class LoginController {
             }
         }
     }
+
 }
