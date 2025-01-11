@@ -38,6 +38,7 @@ public class GantiPassword extends javax.swing.JFrame {
         pwToggle2 = new javax.swing.JButton();
         passwordInput = new javax.swing.JPasswordField();
         konpasswordInput = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -85,6 +86,14 @@ public class GantiPassword extends javax.swing.JFrame {
             }
         });
 
+        konpasswordInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                konpasswordInputActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("*Minimal 5 Karakter dan 1 Angka");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,7 +121,8 @@ public class GantiPassword extends javax.swing.JFrame {
                                         .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
                                             .addGap(71, 71, 71)
-                                            .addComponent(jLabel2)))))
+                                            .addComponent(jLabel2))
+                                        .addComponent(jLabel7))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(73, 73, 73)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -146,13 +156,15 @@ public class GantiPassword extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pwToggle1)
                     .addComponent(passwordInput))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pwToggle2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(konpasswordInput))
-                .addGap(51, 51, 51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(ubahBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(backBtn)
@@ -191,6 +203,10 @@ public class GantiPassword extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pwToggle2ActionPerformed
 
+    private void konpasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_konpasswordInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_konpasswordInputActionPerformed
+
     public String getPasswordInput(){
         return passwordInput.getText();
     }
@@ -211,6 +227,7 @@ public class GantiPassword extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPasswordField konpasswordInput;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JButton pwToggle1;
