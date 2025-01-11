@@ -12,6 +12,7 @@ public class OTPListView extends javax.swing.JFrame {
     private JButton refreshButton;
     private JButton backButton;
     private javax.swing.JButton deleteBtn;
+    private JButton exportButton;
 
     public OTPListView() {
         initComponents();
@@ -43,6 +44,7 @@ public class OTPListView extends javax.swing.JFrame {
         refreshButton = new JButton("Refresh");
         backButton = new JButton("Back");
         deleteBtn = new JButton("Delete");
+        exportButton = new JButton("Export");
 
     
 
@@ -56,29 +58,34 @@ public class OTPListView extends javax.swing.JFrame {
             layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(titleLabel)
-                    .addComponent(tableScrollPane, GroupLayout.PREFERRED_SIZE, 750, GroupLayout.PREFERRED_SIZE) // Sesuaikan lebar tabel
+                    .addComponent(tableScrollPane, GroupLayout.PREFERRED_SIZE, 750, GroupLayout.PREFERRED_SIZE) 
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(refreshButton)
+                        .addGap(20, 20, 20)
+                        .addComponent(backButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deleteBtn)
+                        .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(backButton))
+                        .addComponent(refreshButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exportButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
             );
 
-            // Vertical Group
             layout.setVerticalGroup(
                 layout.createSequentialGroup()
                     .addGap(20) // Padding atas
                     .addComponent(titleLabel)
                     .addGap(20)
-                    .addComponent(tableScrollPane, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE) // Tambahkan tinggi tabel
+                    .addComponent(tableScrollPane, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE) 
                     .addGap(20)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(refreshButton)
+                        .addComponent(backButton)
                         .addComponent(deleteBtn)
-                        .addComponent(backButton))
+                        .addComponent(refreshButton)
+                        .addComponent(exportButton)) 
                     .addGap(20) // Padding bawah
             );
+
 
             // Simpan pengaturan baru
             pack();
@@ -99,5 +106,8 @@ public class OTPListView extends javax.swing.JFrame {
     }
     public void addDeleteButtonListener(ActionListener listener) {
         deleteBtn.addActionListener(listener);
+    }
+    public void addExportButtonListener(ActionListener listener) {
+        exportButton.addActionListener(listener);
     }
 }
