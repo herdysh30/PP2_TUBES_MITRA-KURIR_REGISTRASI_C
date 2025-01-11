@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.security.MessageDigest;
 import org.apache.ibatis.session.SqlSession;
 import controller.SessionManager;
+import java.time.LocalDateTime;
+import model.RiwayatLoginMapper;
 import view.AdminMenu;
 import view.Menu;
 
@@ -63,6 +65,9 @@ public class LoginController {
                         view.setVisible(false);
 
                         SessionManager.setCurrentUser(user);
+                        RiwayatLoginMapper riwayatLoginMapper = session.getMapper(RiwayatLoginMapper.class);
+                        riwayatLoginMapper.insertRiwayatLogin(user.getId(), LocalDateTime.now().toString());
+                         session.commit();
 
                         // Validasi role
                         if ("admin".equalsIgnoreCase(user.getRole())) {

@@ -1,5 +1,6 @@
 package controller;
 
+import com.lowagie.text.DocumentException;
 import model.OTP;
 import model.OTPMapper;
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +9,10 @@ import view.OTPListView;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class OTPListController {
@@ -28,6 +32,7 @@ public class OTPListController {
         view.addRefreshButtonListener(new RefreshButtonListener());
         view.addBackButtonListener(new BackButtonListener());
         view.addDeleteButtonListener(new DeleteButtonListener());
+        view.addExportButtonListener(new ExportButtonListener());
     }
 
     // Method untuk memuat data OTP ke JTable
@@ -97,5 +102,39 @@ public class OTPListController {
             }
         }
     }
+    class ExportButtonListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            // Dapatkan data dari tabel
+            List<String[]> tableData = new ArrayList<>();
+            for (OTP otp : otpMapper.getAllOTP()) {
+                tableData.add(new String[]{
+                        String.valueOf(otp.getOtpId()),
+                        otp.getKodeOtp(),
+                        otp.getCreatedAt() != null ? otp.getCreatedAt().toString() : "-",
+                        otp.getExpiresAt() != null ? otp.getExpiresAt().toString() : "-",
+                        otp.getStatus()
+                });
+            }
+
+            // Header kolom
+            String[] headers = {"ID OTP", "Kode OTP", "Dibuat Pada", "Berakhir Pada", "Status"};
+
+            // File output
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Simpan PDF");
+            if (fileChooser.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath() + ".pdf";
+                PDFExporter.exportTableToPDF(filePath,"Daftar OTP", tableData, headers);
+                JOptionPane.showMessageDialog(view, "File berhasil diekspor ke " + filePath);
+            }
+        } catch (DocumentException | IOException ex) {
+            JOptionPane.showMessageDialog(view, "Gagal mengekspor data: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+}
+
 
 }

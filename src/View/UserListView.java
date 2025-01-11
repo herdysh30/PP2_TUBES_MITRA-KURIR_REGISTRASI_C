@@ -14,12 +14,11 @@ public class UserListView extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         
-        
-
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
         backButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
+        exportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Daftar User");
@@ -54,32 +53,36 @@ public class UserListView extends javax.swing.JFrame {
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("Delete");
         
+        exportButton.setText("Export PDF");
+        
 
         // Layout
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(backButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(refreshButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(exportButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backButton)
-                    .addComponent(deleteBtn)
-                    .addComponent(refreshButton))
-                .addContainerGap())
+            layout.createSequentialGroup()
+            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(backButton)
+                .addComponent(deleteBtn)
+                .addComponent(refreshButton)
+                .addComponent(exportButton)) // Tambahkan tombol Export PDF ke baris tombol
+            .addContainerGap()
         );
 
         pack();
@@ -93,7 +96,7 @@ public class UserListView extends javax.swing.JFrame {
 
     // Tombol refresh (logic diimplementasikan di Controller)
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // Implementasikan logika refresh di Controller
+        
     }
 
     // Akses ke JTable
@@ -113,6 +116,10 @@ public class UserListView extends javax.swing.JFrame {
     public void addDeleteButtonListener(ActionListener listener) {
         deleteBtn.addActionListener(listener);
     }
+    
+    public void addExportButtonListener(ActionListener listener) {
+        exportButton.addActionListener(listener);
+    }
 
     // Variables declaration
     private javax.swing.JButton backButton;
@@ -120,5 +127,6 @@ public class UserListView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable userTable;
     private javax.swing.JButton deleteBtn;
+    private JButton exportButton;
     // End of variables declaration
 }
